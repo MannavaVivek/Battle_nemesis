@@ -16,10 +16,14 @@ public:
     int getY() const { return y; }
     int getPlayer() const { return player; }
     int getHealth() const { return health; }
-    int getDamage() const { return damage; }
     int getMoveRange() const { return moveRange; }
+    int getAttackDamage() const { return attackDamage; }
     int getAttackRange() const { return attackRange; }
     UnitType getType() const { return type; }
+
+    void takeDamage(int damage) { health -= damage; }
+    bool isAlive() const { return health > 0; }
+    bool inAttackRange(int targetX, int targetY) const;
 
     void setPosition(int x, int y);
 
@@ -29,8 +33,8 @@ private:
     int player;
     int orientation;
     int health;
-    int damage;
     int moveRange;
+    int attackDamage;
     int attackRange;
     SDL_Texture* texture;
 };

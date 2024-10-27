@@ -1,14 +1,15 @@
 #include "unit.hpp"
+#include <iostream>
 #include <cmath>
 
 Unit::Unit(UnitType type, int x, int y, int player, int orientation, SDL_Texture* texture)
     : type(type), x(x), y(y), player(player), orientation(orientation), texture(texture) {
     
     switch (type) {
-        case INFANTRY: health = 50; damage = 5; moveRange = 2; attackRange = 1; break;
-        case TANK: health = 150; damage = 20; moveRange = 4; attackRange = 2; break;
-        case BOAT: health = 100; damage = 10; moveRange = 2; attackRange = 1; break;
-        case HELICOPTER: health = 100; damage = 10; moveRange = 6; attackRange = 2; break;
+        case INFANTRY: health = 50; attackDamage = 10; moveRange = 2; attackRange = 1; break;
+        case TANK: health = 150; attackDamage = 20; moveRange = 4; attackRange = 2; break;
+        case BOAT: health = 100; attackDamage = 10; moveRange = 2; attackRange = 1; break;
+        case HELICOPTER: health = 100; attackDamage = 20; moveRange = 6; attackRange = 2; break;
     }
 }
 
@@ -38,4 +39,8 @@ bool Unit::animateMovement(int targetX, int targetY, int tileSize) {
     else if (std::abs(deltaY) > 0) y += (deltaY > 0) ? 1 : -1;
 
     return (x != targetX || y != targetY);
+}
+
+bool Unit::inAttackRange(int targetX, int targetY) const {
+    return (std::abs(targetX - x) <= attackRange && std::abs(targetY - y) <= attackRange);
 }
